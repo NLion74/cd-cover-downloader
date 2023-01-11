@@ -1,6 +1,6 @@
 # cd-cover-downloader
 
-Cd Cover Downloader using the discogs api to search albums and fetch the Album Covers
+Cd Cover Downloader using the Discogs API to search Albums and fetch the Album Covers
 
 ## Requirements
 
