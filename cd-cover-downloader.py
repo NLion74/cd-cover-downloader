@@ -40,8 +40,10 @@ for dir_ in list_:
         continue
 
 if failures:
+    print("")
     print("The Following Albums could not be processed, please verify that their names are correct or download the covers manually")
     for album in failures:
         print(album)
 if not failures:
+    print("")
     print("All Covers have been downloaded successfully")
