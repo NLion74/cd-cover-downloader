@@ -1,7 +1,9 @@
 import os
 import shutil
+import time
 import requests
 import discogs_client
+import asyncio
 
 d = discogs_client.Client('Mozilla/5.0', user_token='your_user_token') # You will have to create an discogs account and go to this link: https://www.discogs.com/de/settings/developers
 
@@ -10,14 +12,17 @@ list_ = os.listdir(path)
 total = len(list_)
 failures = []
 counter = 0
+start = time.perf_counter()
+times = []
 
-def fetchcover(dir, counter):
+async def fetchcover(dir, counter):
     if os.path.isdir(path + '/' + dir):
         album = dir
         try:
             results = d.search(album)
             result = results.page(0)[1]
-
+            thing = time.perf_counter() - start
+            times.append(thing)
             images = result.images
             image = images[0]
             imageurl = image['uri']
@@ -45,11 +50,16 @@ def fetchcover(dir, counter):
 
 for dir_ in list_:
     counter += 1
-    fetchcover(dir_, counter)
+    asyncio.run(fetchcover(dir_, counter))
 
-if failures:
+if len(failures) == 1:
     print("")
-    print("The Following " + str(len(failures)) + "Albums could not be processed. Please verify their names are correct or consider downloading them manually.")
+    print("The Following Album could not be processed. Please verify their names are correct or consider downloading them manually.")
+    for album in failures:
+        print(album)
+elif failures:
+    print("")
+    print("The Following " + str(len(failures)) + " Albums could not be processed. Please verify their names are correct or consider downloading them manually.")
     for album in failures:
         print(album)
 if not failures:
