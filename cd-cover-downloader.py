@@ -11,10 +11,9 @@ total = len(list_)
 failures = []
 counter = 0
 
-for dir_ in list_:
-    if os.path.isdir(path + '/' + dir_):
-        album = dir_
-        counter += 1
+def fetchcover(dir, counter):
+    if os.path.isdir(path + '/' + dir):
+        album = dir
         try:
             results = d.search(album)
             result = results.page(0)[1]
@@ -27,12 +26,12 @@ for dir_ in list_:
             print(album + " (" + str(counter) + "/" + str(total) + ")")
             print("An exception error for occurred")
             failures.append(album)
-            continue
+            return False
 
         imageres = requests.get(imageurl, stream=True, headers={"User-Agent": 'Mozilla/5.0'})
 
         if imageres.status_code == 200:
-            with open(path + "/" + dir_ + "/cover." + ext, 'wb') as f:
+            with open(path + "/" + dir + "/cover." + ext, 'wb') as f:
                 shutil.copyfileobj(imageres.raw, f)
             print(album + " (" + str(counter) + "/" + str(total) + ")")
             print("Album Cover Successfully downloaded")
@@ -41,8 +40,12 @@ for dir_ in list_:
             print("Album Cover failed to download")
             failures.append(album)
 
-    if os.path.isfile(path + "/" + dir_):
-        continue
+    if os.path.isfile(path + "/" + dir):
+        return False
+
+for dir_ in list_:
+    counter += 1
+    fetchcover(dir_, counter)
 
 if failures:
     print("")
