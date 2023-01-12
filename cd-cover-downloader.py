@@ -7,12 +7,14 @@ d = discogs_client.Client('Mozilla/5.0', user_token='your_user_token') # You wil
 
 path = 'your_cd_directory'
 list_ = os.listdir(path)
+total = len(list_)
 failures = []
+counter = 0
 
 for dir_ in list_:
     if os.path.isdir(path + '/' + dir_):
         album = dir_
-        print(album)
+        counter += 1
         try:
             results = d.search(album)
             result = results.page(0)[1]
@@ -22,6 +24,7 @@ for dir_ in list_:
             imageurl = image['uri']
             ext = imageurl.rsplit(".", 1)[1]
         except:
+            print(album + " (" + str(counter) + "/" + str(total) + ")")
             print("An exception error for occurred")
             failures.append(album)
             continue
@@ -31,8 +34,10 @@ for dir_ in list_:
         if imageres.status_code == 200:
             with open(path + "/" + dir_ + "/cover." + ext, 'wb') as f:
                 shutil.copyfileobj(imageres.raw, f)
+            print(album + " (" + str(counter) + "/" + str(total) + ")")
             print("Album Cover Successfully downloaded")
         else:
+            print(album + " (" + str(counter) + "/" + str(total) + ")")
             print("Album Cover failed to download")
             failures.append(album)
 
