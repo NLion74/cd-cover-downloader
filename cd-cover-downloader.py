@@ -15,8 +15,8 @@ def fetchcover(dir, counter):
     if os.path.isdir(path + '/' + dir):
         album = dir
         try:
-            results = d.search(album, type="release, master")
-            result = results.page(0)[0]
+            results = d.search(album, type="release")
+            result = results.page(0)[1]
             images = result.images
             image = images[0]
             imageurl = image['uri']
