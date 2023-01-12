@@ -1,9 +1,7 @@
 import os
 import shutil
-import time
 import requests
 import discogs_client
-import asyncio
 
 d = discogs_client.Client('Mozilla/5.0', user_token='your_user_token') # You will have to create an discogs account and go to this link: https://www.discogs.com/de/settings/developers
 
@@ -12,24 +10,20 @@ list_ = os.listdir(path)
 total = len(list_)
 failures = []
 counter = 0
-start = time.perf_counter()
-times = []
 
-async def fetchcover(dir, counter):
+def fetchcover(dir, counter):
     if os.path.isdir(path + '/' + dir):
         album = dir
         try:
             results = d.search(album)
             result = results.page(0)[1]
-            thing = time.perf_counter() - start
-            times.append(thing)
             images = result.images
             image = images[0]
             imageurl = image['uri']
             ext = imageurl.rsplit(".", 1)[1]
         except:
             print(album + " (" + str(counter) + "/" + str(total) + ")")
-            print("An exception error for occurred")
+            print("An exception error occurred")
             failures.append(album)
             return False
 
@@ -50,7 +44,7 @@ async def fetchcover(dir, counter):
 
 for dir_ in list_:
     counter += 1
-    asyncio.run(fetchcover(dir_, counter))
+    fetchcover(dir_, counter)
 
 if len(failures) == 1:
     print("")
