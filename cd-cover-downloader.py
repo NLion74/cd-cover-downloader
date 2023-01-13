@@ -3,10 +3,9 @@ import shutil
 import requests
 import discogs_client
 
-d = discogs_client.Client('Mozilla/5.0',
-                          user_token='your_user_token')  # You will have to create an discogs account and go to this link: https://www.discogs.com/de/settings/developers
+d = discogs_client.Client('Mozilla/5.0', user_token='your_user_token')  # You will have to create an discogs account and go to this link: https://www.discogs.com/de/settings/developers
 
-path = 'your_cd_directory'
+path = 'C:\Data\other\Media\Musics'
 list_ = os.listdir(path)
 total = len(list_)
 failures = []
@@ -68,7 +67,8 @@ if failures:
         print("The Following Album(s) were force skipped: ")
         for album in skips:
             print(album)
-if not failures:
+
+elif not failures:
     print("")
     print("All Album(s) were successfully processed")
 
