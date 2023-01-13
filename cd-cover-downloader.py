@@ -5,7 +5,7 @@ import discogs_client
 
 d = discogs_client.Client('Mozilla/5.0', user_token='your_user_token')  # You will have to create an discogs account and go to this link: https://www.discogs.com/de/settings/developers
 
-path = 'C:\Data\other\Media\Musics'
+path = 'your_cd_directory'
 list_ = os.listdir(path)
 total = len(list_)
 failures = []
