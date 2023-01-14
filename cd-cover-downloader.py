@@ -73,8 +73,8 @@ elif len(sys.argv) > 2:
     print("You can only pass one argument at a time. Use --help to list all available options")
     exit()
 else:
-    if os.path.exists("processed.pickle"):
-        with open("processed.pickle", "rb") as f:
+    if os.path.exists("cache.pickle"):
+        with open("cache.pickle", "rb") as f:
             processed = pickle.load(f)
     else:
         processed = []
@@ -83,7 +83,7 @@ for dir_ in list_:
     counter += 1
     fetchcover(dir_, counter)
 
-with open("processed.pickle", 'wb') as f:
+with open("cache.pickle", 'wb') as f:
     pickle.dump(processed, f)
 
 if failures:
