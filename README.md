@@ -9,3 +9,8 @@ You will have to install the discogs_client in order for this to work. You will 
 ## Manually Adding Covers
 
 In order to manually add covers you will have to create a file called "force_skip" or the cover will be replaced at every run
+
+## Refreshing the Cache
+
+The script has a cache because there is no need to always redownload covers and this way only new album covers will be downloaded.
+In order to clear that cache you will have to either delete the cache.pickle file created in the directory or use the -r option
